@@ -2,12 +2,11 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Chatty</title>
-  <script defer src="http://localhost:3000/socket.io/socket.io.js"></script>
+  <script defer src="/socket.io/socket.io.js"></script>
   <script defer src="script.js"></script>
   <style>
-    * {
+   * {
       box-sizing: border-box;
     }
 
@@ -122,17 +121,17 @@
       background-color: #006bbd;
     }
   </style>
+  </style>
 </head>
 <body>
   <header id="app-header">
-    <img src="logo.png" alt="Chatty Logo" id="logo" />
+    <img id="logo" src="logo.png" alt="Chatty Logo" />
     <h1 id="title">Chatty</h1>
   </header>
   <div id="message-container"></div>
   <form id="send-container">
-    <input type="text" id="message-input" autocomplete="off" placeholder="Type a message..." />
-    <button type="submit" id="send-button">Send</button>
+    <input id="message-input" type="text" autocomplete="off" placeholder="Type a message..." />
+    <button type="submit">Send</button>
   </form>
 </body>
 </html>
-  
