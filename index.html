@@ -22,6 +22,32 @@
       height: 100vh;
     }
 
+    #app-header {
+      display: flex;
+      align-items: center;
+      padding: 15px 20px;
+      background-color: white;
+      width: 100%;
+      max-width: 800px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    #logo {
+      height: 40px;
+      width: 40px;
+      margin-right: 10px;
+    }
+
+    #title {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-size: 24px;
+      color: #333;
+      margin: 0;
+    }
+
     #message-container {
       width: 100%;
       max-width: 800px;
@@ -98,6 +124,10 @@
   </style>
 </head>
 <body>
+  <header id="app-header">
+    <img src="logo.png" alt="Chatty Logo" id="logo" />
+    <h1 id="title">Chatty</h1>
+  </header>
   <div id="message-container"></div>
   <form id="send-container">
     <input type="text" id="message-input" autocomplete="off" placeholder="Type a message..." />
@@ -105,3 +135,4 @@
   </form>
 </body>
 </html>
+  
