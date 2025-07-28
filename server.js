@@ -13,6 +13,7 @@ mongoose.connect(process.env.MONGODB_URI, {
 const messageSchema = new mongoose.Schema({
   name: String,
   message: String,
+  room: String,
   timestamp: { type: Date, default: Date.now }
 });
 
@@ -22,27 +23,32 @@ app.use(express.static(__dirname));
 
 const users = {};
 
-io.on('connection', async socket => {
-  const history = await Message.find().sort({ timestamp: 1 }).limit(50);
-  socket.emit('chat-history', history);
+io.on('connection', socket => {
+  socket.on('join-room', async ({ name, room }) => {
+    socket.join(room);
+    users[socket.id] = { name, room };
 
-  socket.on('new-user', name => {
-    users[socket.id] = name;
-    socket.broadcast.emit('user-connected', name);
-  });
+    const history = await Message.find({ room }).sort({ timestamp: 1 }).limit(50);
+    socket.emit('chat-history', history);
 
-  socket.on('send-chat-message', async msg => {
-    const name = users[socket.id];
-    const newMessage = new Message({ name, message: msg });
-    await newMessage.save();
-    socket.broadcast.emit('chat-message', { name, message: msg });
-  });
+    socket.to(room).emit('user-connected', name);
 
-  socket.on('disconnect', () => {
-    socket.broadcast.emit('user-disconnected', users[socket.id]);
-    delete users[socket.id];
+    socket.on('send-chat-message', async msg => {
+      const user = users[socket.id];
+      const newMessage = new Message({ name: user.name, message: msg, room: user.room });
+      await newMessage.save();
+      socket.to(user.room).emit('chat-message', { name: user.name, message: msg });
+    });
+
+    socket.on('disconnect', () => {
+      const user = users[socket.id];
+      if (user) {
+        socket.to(user.room).emit('user-disconnected', user.name);
+        delete users[socket.id];
+      }
+    });
   });
 });
 
 const PORT = process.env.PORT || 3000;
-http.listen(PORT);
+http.listen(PORT, () => console.log(`Server running on port ${PORT}`));

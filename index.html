@@ -6,7 +6,7 @@
   <script defer src="/socket.io/socket.io.js"></script>
   <script defer src="script.js"></script>
   <style>
-   * {
+    * {
       box-sizing: border-box;
     }
 
@@ -41,7 +41,6 @@
     }
 
     #title {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       font-size: 24px;
       color: #333;
       margin: 0;
@@ -54,7 +53,7 @@
       margin-bottom: 70px;
       padding: 10px;
       overflow-y: auto;
-      display: flex;
+      display: none;
       flex-direction: column;
       gap: 10px;
     }
@@ -91,7 +90,7 @@
       width: 100%;
       max-width: 800px;
       background: white;
-      display: flex;
+      display: none;
       padding: 10px;
       box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
     }
@@ -120,18 +119,68 @@
     #send-button:hover {
       background-color: #006bbd;
     }
-  </style>
+
+    #login-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+    }
+
+    #login-box {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      text-align: center;
+      box-shadow: 0 0 10px rgba(0,0,0,0.25);
+    }
+
+    #login-box input {
+      width: 80%;
+      padding: 10px;
+      font-size: 16px;
+      margin-top: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    #login-box button {
+      margin-top: 15px;
+      padding: 10px 20px;
+      background-color: #0084ff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
-  <header id="app-header">
+
+  <div id="login-overlay">
+    <div id="login-box">
+      <h2>Enter your name & room</h2>
+      <input type="text" id="username-input" placeholder="Your name" />
+      <input type="text" id="room-input" placeholder="Group name (e.g. general)" />
+      <button id="login-button">Join</button>
+    </div>
+  </div>
+
+  <header id="app-header" style="display: none;">
     <img id="logo" src="logo.png" alt="Chatty Logo" />
     <h1 id="title">Chatty</h1>
   </header>
+
   <div id="message-container"></div>
+
   <form id="send-container">
     <input id="message-input" type="text" autocomplete="off" placeholder="Type a message..." />
-    <button type="submit">Send</button>
+    <button type="submit" id="send-button">Send</button>
   </form>
+
 </body>
 </html>
