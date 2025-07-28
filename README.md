@@ -6,6 +6,7 @@ Real time chat application built for the Boot.dev hackathon - (https://blog.boot
  - run `npm init`
  - run `npm install`
  - run `npm run devStart`
+ - if needed install the other dependencies
  - open http://localhost:3000
 
 # Purpose of the project
